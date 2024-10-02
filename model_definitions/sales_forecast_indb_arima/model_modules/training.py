@@ -179,8 +179,7 @@ def train(context: ModelContext, **kwargs):
                                 coeff_stats=True,
                                 fit_metrics=True,
                                 residuals=True,
-                                persist=True,
-                                output_table_name='arima_est_tb',     
+                                persist=True,  
                                 fit_percentage=80,
                                 output_fmt_index_style="FLOW_THROUGH")
     except:
@@ -197,6 +196,11 @@ def train(context: ModelContext, **kwargs):
                                 output_table_name='arima_est_tb',     
                                 fit_percentage=80,
                                 output_fmt_index_style="FLOW_THROUGH")
+        
+    # data_art_df = TDAnalyticResult(data=arima_est_out.result)
+    # Save the trained model to SQL
+    arima_est_out.result.to_sql(table_name='arima_est_tb', if_exists="replace")  
+    print("Saved trained model")
         
     # data_art_df = TDAnalyticResult(data=arima_est_out.result)
     # Save the trained model to SQL
