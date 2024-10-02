@@ -1,0 +1,6 @@
+{
+    "id": "6e91a542-366f-4ded-ae4f-08da87567765",
+    "name": "In-database Sales Forecast",
+    "description": "In-database Sales Forecast using ARIMA",
+    "language": "python"
+}
