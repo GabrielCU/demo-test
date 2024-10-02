@@ -139,6 +139,10 @@ def train(context: ModelContext, **kwargs):
     # outlier_obj.result.to_sql('outlier_data', if_exists="replace")
     print("Saved normalized series")
     
+    train_df_pandas = train_df.to_pandas()
+
+    # Check for irregularities in the time series
+    print(train_df_pandas['Sales_Date'].diff().value_counts())
     
         
     print("Starting training...")
@@ -170,6 +174,7 @@ def train(context: ModelContext, **kwargs):
     plot_acf_fun(f"{context.artifact_output_path}/acf_plot")
     plot_pacf_fun(f"{context.artifact_output_path}/pacf_plot")
     # Train the model using ARIMA
+
     try:
         print("Before Arimaestimate...")
         arima_est_out = ArimaEstimate(data1=data_series_df_2,
@@ -192,19 +197,13 @@ def train(context: ModelContext, **kwargs):
                                 coeff_stats=True,
                                 fit_metrics=True,
                                 residuals=True,
-                                persist=True,
-                                output_table_name='arima_est_tb',     
+                                persist=True, 
                                 fit_percentage=80,
                                 output_fmt_index_style="FLOW_THROUGH")
         
     # data_art_df = TDAnalyticResult(data=arima_est_out.result)
     # Save the trained model to SQL
     arima_est_out.result.to_sql(table_name='arima_est_tb', if_exists="replace")  
-    print("Saved trained model")
-        
-    # data_art_df = TDAnalyticResult(data=arima_est_out.result)
-    # Save the trained model to SQL
-    # arima_est_out.result.to_sql(table_name='arima_data', if_exists="replace")  
     print("Saved trained model")
 
     # Calculate feature importance and generate plot
