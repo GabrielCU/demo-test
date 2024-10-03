@@ -99,13 +99,16 @@ def train(context: ModelContext, **kwargs):
     target_name = context.dataset_info.target_names[0]
     entity_key = context.dataset_info.entity_key
 
-    print(feature_names)
+    print(f"Feature names: {feature_names}")
+    print(f"target name: {target_name}")
+    print(f"entity_key: {entity_key}")
+          
 
     # Load the training data from Teradata
     train_df = DataFrame.from_query(context.dataset_info.sql)
 
-    print(train_df)
-    print(train_df.dtypes)
+    print(f"train df: {train_df}")
+    print(f"train df types: {train_df.dtypes}")
 
     print ("Make series stationary using seasonalnormalize...")
     
@@ -142,6 +145,7 @@ def train(context: ModelContext, **kwargs):
     train_df_pandas = train_df.to_pandas()
 
     # Check for irregularities in the time series
+    print("Check for irregularities in the time series")
     print(train_df_pandas['Sales_Date'].diff().value_counts())
     
         
